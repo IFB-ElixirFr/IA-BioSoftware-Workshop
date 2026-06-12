@@ -1,0 +1,29 @@
+[project]
+name = "figure2a-reproduction"
+version = "0.1.0"
+description = "Reproducible Python project to recreate Figure 2A from Kelliher et al. 2016."
+authors = [{ name = "Chaker Aloui", email = "aloui-choko@hotmail.fr" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = ["bioinformatics", "transcriptomics", "reproducibility", "figure"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "D", "N", "UP", "B", "SIM"]
+ignore = ["D203", "D212"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.pyright]
+pythonVersion = "3.10"
+typeCheckingMode = "basic"
+include = ["src", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing --cov-report=xml"

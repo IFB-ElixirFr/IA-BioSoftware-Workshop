@@ -1,0 +1,38 @@
+[project]
+name = "figure2a-reproduction"
+version = "0.1.0"
+description = "Reproduce Figure 2A from Kelliher et al. 2016 with a FAIR Python workflow."
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+[dependencies]
+python = ">=3.10,<3.13"
+pandas = ">=2.2"
+openpyxl = ">=3.1"
+numpy = ">=1.26"
+matplotlib = ">=3.8"
+
+[feature.dev.dependencies]
+ruff = ">=0.6"
+pyright = ">=1.1"
+pytest = ">=8.0"
+pytest-cov = ">=5.0"
+safety = ">=3.2"
+trivy = ">=0.56"
+
+[environments]
+default = { features = ["default"] }
+dev = { features = ["default", "dev"] }
+
+[tasks]
+run-figure = "python src/reproduce_figure_2a.py --input data/pgen.1006453.s002.xlsx --output results/figure_2A_reproduced.png"
+
+[feature.dev.tasks]
+lint = "ruff check ."
+format = "ruff format ."
+typecheck = "pyright src/reproduce_figure_2a.py tests"
+test = "pytest"
+coverage = "pytest --cov=src --cov-report=term-missing"
+safety-check = "safety check"
+trivy-check = "trivy fs --scanners secret,vuln,misconfig ."
+all-checks = { depends-on = ["lint", "typecheck", "test"] }
